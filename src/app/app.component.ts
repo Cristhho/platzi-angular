@@ -17,6 +17,8 @@ export class AppComponent {
     avatar: 'https://www.w3schools.com/howto/img_avatar.png'
   }
 
+  emojis = [ '😂' , '🐦', '🐳','🌮', '💚'];
+
   toggleButton() {
     this.btnDisabled = !this.btnDisabled;
   }
@@ -29,5 +31,9 @@ export class AppComponent {
   changeName(event: Event) {
     const el = event.target as HTMLInputElement;
     this.person.name = el.value;
+  }
+
+  deleteEmoji(index: number) {
+    this.emojis.splice(index, 1);
   }
 }

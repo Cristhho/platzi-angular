@@ -1,3 +1,13 @@
+<h1>*ngFor</h1>
+<ul>
+  <li *ngIf="emojis.length === 0">No emojis for you</li>
+  <li *ngFor="let emoji of emojis; index as i">
+    {{i + 1}} - {{emoji}}
+    <button (click)="deleteEmoji(i)">Delete</button>
+  </li>
+</ul>
+
+<hr />
 <h1>*ngIf</h1>
 <p *ngIf="person.name === 'Christian'; else otherBlock">Correct</p>
 <ng-template #otherBlock>
