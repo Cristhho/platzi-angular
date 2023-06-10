@@ -8,5 +8,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   name = 'Christian';
   age = 29;
-  image = 'https://images.unsplash.com/source-404?fit=crop&fm=jpg&h=800&q=60&w=1200'
+  image = 'https://images.unsplash.com/source-404?fit=crop&fm=jpg&h=800&q=60&w=1200';
+  btnDisabled = true;
+
+  person = {
+    name: 'Christian',
+    avatar: 'https://www.w3schools.com/howto/img_avatar.png'
+  }
 }
