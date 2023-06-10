@@ -1,3 +1,10 @@
+<h1>*ngIf</h1>
+<p *ngIf="person.name === 'Christian'; else otherBlock">Correct</p>
+<ng-template #otherBlock>
+  <p>Other person</p>
+</ng-template>
+
+<hr />
 <h1>NgModel</h1>
 <input type="text" required #nameInput="ngModel" [(ngModel)]="person.name" />
 <p>Valid: {{ nameInput.valid }}</p>
