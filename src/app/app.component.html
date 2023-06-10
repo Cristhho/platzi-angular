@@ -1,3 +1,28 @@
+<h1>*ngClass & ngStyle</h1>
+<div class="form--field">
+  <input #nameInput3="ngModel" type="text" required [(ngModel)]="person.name" />
+  <label [ngClass]="{ 'valid': nameInput3.valid, 'invalid': nameInput3.invalid }">Name</label>
+</div>
+<div>
+  <p class="message-error" [class.active]="nameInput3.invalid" *ngIf="nameInput3.invalid">The field is required</p>
+</div>
+<div class="styles">
+  <div>
+    <input type="number" [(ngModel)]="box.width" />
+    <input type="number" [(ngModel)]="box.height" />
+    <input type="color" [(ngModel)]="box.background" />
+  </div>
+  <div>
+    <div [ngStyle]="{
+      'width.px': box.width,
+      'height.px': box.height,
+      'background-color': box.background,
+      'display': 'block'
+    }"></div>
+  </div>
+</div>
+
+<hr />
 <h1>*classes and styles</h1>
 <div class="form--field">
   <input type="text" required #nameInput2="ngModel" [(ngModel)]="person.name" />
