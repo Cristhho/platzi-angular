@@ -13,6 +13,7 @@ export class AppComponent {
 
   person = {
     name: 'Christian',
+    age: 20,
     avatar: 'https://www.w3schools.com/howto/img_avatar.png'
   }
 
