@@ -1,3 +1,13 @@
+<h1>*classes and styles</h1>
+<div class="form--field">
+  <input type="text" required #nameInput2="ngModel" [(ngModel)]="person.name" />
+  <label [style.fontStyle]="nameInput2.invalid ? 'italic' : 'normal'">Name</label>
+</div>
+<div>
+  <p class="message-error" [class.active]="nameInput2.invalid" *ngIf="nameInput2.invalid">The field is required</p>
+</div>
+
+<hr />
 <h1>*ngFor Objs</h1>
 <div class="products--grid">
   <div *ngFor="let product of products">
