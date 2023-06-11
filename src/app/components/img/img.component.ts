@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-img',
@@ -7,4 +7,14 @@ import { Component, Input } from '@angular/core';
 })
 export class ImgComponent {
   @Input() img: string = 'https://www.w3schools.com/howto/img_avatar.png'
+  @Output() loaded = new EventEmitter<string>()
+  imgDefault = './assets/images/default.png'
+
+  imgError() {
+    this.img = this.imgDefault
+  }
+
+  imgLoaded() {
+    this.loaded.emit(this.img)
+  }
 }
