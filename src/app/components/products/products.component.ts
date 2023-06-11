@@ -33,4 +33,12 @@ export class ProductsComponent {
       img: './assets/images/books.jpg'
     }
   ]
+
+  shoppingCart: Product[] = []
+  total = 0
+
+  onAddToShoppingCart(product: Product) {
+    this.shoppingCart.push(product)
+    this.total = this.shoppingCart.reduce((sum, item) => sum + item.price,0)
+  }
 }
