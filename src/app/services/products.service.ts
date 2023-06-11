@@ -17,6 +17,12 @@ export class ProductsService {
     return this.http.get<Product[]>(this.APIURL)
   }
 
+  paginateProducts(limit: number, offset: number) {
+    return this.http.get<Product[]>(`${this.APIURL}`, {
+      params: {limit, offset}
+    })
+  }
+
   getProductById(id: number) {
     return this.http.get<Product>(`${this.APIURL}/${id}`)
   }

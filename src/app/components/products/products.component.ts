@@ -18,6 +18,9 @@ export class ProductsComponent implements OnInit {
   showProductDetail = false
   selectedProduct!: Product
 
+  limit = 10
+  offset = 0
+
   constructor(
     private storeService: StoreService,
     private productsService: ProductsService,
@@ -26,8 +29,7 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.productsService.getAllProducts()
-      .subscribe((res) => this.products = res)
+    this.loadMore()
   }
 
   onAddToShoppingCart(product: Product) {
@@ -83,6 +85,14 @@ export class ProductsComponent implements OnInit {
         const prodIndex = this.products.findIndex((_prod) => _prod.id === id)
         this.products.splice(prodIndex, 1)
         this.toggleProductDetail(false)
+      })
+  }
+
+  loadMore() {
+    this.productsService.paginateProducts(this.limit, this.offset)
+      .subscribe((res) => {
+        this.products.push(...res)
+        this.offset += this.limit
       })
   }
 }
