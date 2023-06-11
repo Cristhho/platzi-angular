@@ -1,4 +1,4 @@
-<app-img [img]="product.image"/>
+<app-img *ngIf="product.images.length > 0" [img]="product.images[0]"/>
 <h2>{{product.title}}</h2>
 <p>{{product.price | currency: 'USD'}}</p>
 <p appHighlight>{{product.description}}</p>
