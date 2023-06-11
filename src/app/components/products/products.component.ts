@@ -31,4 +31,9 @@ export class ProductsComponent implements OnInit {
     this.storeService.addProduct(product)
     this.total = this.storeService.getTotal()
   }
+
+  onShowProductDetail(id: number) {
+    this.productsService.getProductById(id)
+      .subscribe((res) => console.log(res))
+  }
 }
