@@ -16,8 +16,6 @@ export class StoreService {
 
   myCart$ = this.myCart.asObservable()
 
-  constructor() { }
-
   addProduct(product: Product) {
     this._shoppingCart.push(product)
     this.myCart.next(this._shoppingCart)
