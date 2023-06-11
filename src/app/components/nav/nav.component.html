@@ -19,6 +19,14 @@
     </ul>
   </div>
 </div>
+<div class="side-menu" [class.active]="activeMenu">
+  <button (click)="toggleMenu()">Close</button>
+  <ul>
+    <li><a href="">All</a></li>
+    <li><a href="">Clothes</a></li>
+    <li><a href="">Electronics</a></li>
+  </ul>
+</div>
 <div class="hide-mobile">
   <div>
     <nav>
