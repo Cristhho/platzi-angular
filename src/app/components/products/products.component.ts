@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StoreService } from '../../services/store.service'
 import { ProductsService } from '../../services/products.service';
-import { Product } from '../../models/product.model';
+import { CreateProductDTO, Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-products',
@@ -45,5 +45,20 @@ export class ProductsComponent implements OnInit {
 
   toggleProductDetail(show: boolean) {
     this.showProductDetail = show
+  }
+
+  createNewProduct() {
+    const prod: CreateProductDTO = {
+      title: 'new Product',
+      description: 'lorem ipsum',
+      images: [],
+      price: 80.99,
+      categoryId: 1
+    }
+
+    this.productsService.create(prod)
+      .subscribe((res) => {
+        this.products.unshift(res)
+      })
   }
 }
