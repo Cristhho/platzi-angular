@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { retry } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { catchError, retry, throwError } from 'rxjs';
 
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
 import { environment } from '../../environments/environment'
@@ -29,6 +29,17 @@ export class ProductsService {
 
   getProductById(id: number) {
     return this.http.get<Product>(`${this.APIURL}/${id}`)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status >= HttpStatusCode.InternalServerError) {
+            return throwError(() => new Error('Something is wrong on the server'))
+          } else if (error.status === HttpStatusCode.NotFound) {
+            return throwError(() => new Error(`Product with the id: ${id} does not exist`))
+          }
+
+          return throwError(() => new Error('Ups something went wrong!'))
+        })
+      )
   }
 
   create(newProduct: CreateProductDTO) {

@@ -39,9 +39,14 @@ export class ProductsComponent implements OnInit {
 
   onShowProductDetail(id: number) {
     this.productsService.getProductById(id)
-      .subscribe((res) => {
-        this.selectedProduct = res
-        this.toggleProductDetail(true)
+      .subscribe({
+        next: (data) => {
+          this.selectedProduct = data
+          this.toggleProductDetail(true)
+        },
+        error: (error) => {
+          console.log(error)
+        }
       })
   }
 
