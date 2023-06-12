@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { retry } from 'rxjs';
 
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
 
@@ -20,7 +21,9 @@ export class ProductsService {
   paginateProducts(limit: number, offset: number) {
     return this.http.get<Product[]>(`${this.APIURL}`, {
       params: {limit, offset}
-    })
+    }).pipe(
+      retry(3)
+    )
   }
 
   getProductById(id: number) {
