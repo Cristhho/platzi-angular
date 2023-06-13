@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth.service';
+import { UsersService } from './services/users.service';
 
 
 //https://www.w3schools.com/howto/img_avatar.png
@@ -10,7 +12,28 @@ import { Component } from '@angular/core';
 export class AppComponent {
   imgInput = '';
 
+  constructor(
+    private authService: AuthService,
+    private userService: UsersService,
+  ) {}
+
   onLoaded(event: string) {
     console.log('From parent', event)
+  }
+
+  createUser() {
+    this.userService.create({
+      name: 'christian',
+      email: 'christian@google.com',
+      password: '123456'
+    }).subscribe((data) => {
+      console.log(data)
+    })
+  }
+
+  login() {
+    this.authService.login('christian@google.com', '123456').subscribe((data) => {
+      console.log(data)
+    })
   }
 }
