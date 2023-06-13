@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 
+import { FilesService } from './services/files.service';
+
 
 //https://www.w3schools.com/howto/img_avatar.png
 @Component({
@@ -9,6 +11,10 @@ import { Component } from '@angular/core'
 })
 export class AppComponent {
   imgInput = '';
+
+  constructor(
+    private fileService: FilesService
+  ) {}
 
   onLoaded(event: string) {
     console.log('From parent', event)
@@ -23,4 +29,9 @@ export class AppComponent {
       console.log(data)
     })
   }*/
+
+  downloadPdf() {
+    this.fileService.getFile('pdf.pdf', 'https://young-sands-07814.herokuapp.com/api/files/dummy.pdf', 'application/pdf')
+      .subscribe()
+  }
 }
