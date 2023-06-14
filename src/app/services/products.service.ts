@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams, HttpStatusCode } from '@angular/common/http';
 import { catchError, map, retry, throwError } from 'rxjs';
 
 import { CreateProductDTO, Product, UpdateProductDTO } from '../models/product.model';
@@ -10,18 +10,18 @@ import { checkTime } from '../interceptors/time.interceptor';
   providedIn: 'root'
 })
 export class ProductsService {
-  private readonly APIURL = `${environment.API_URL}/api/products`
+  private readonly APIURL = `${environment.API_URL}/api`
 
   constructor(
     private http: HttpClient
   ) { }
 
   getAllProducts() {
-    return this.http.get<Product[]>(this.APIURL)
+    return this.http.get<Product[]>(`${this.APIURL}/products`)
   }
 
   paginateProducts(limit: number, offset: number) {
-    return this.http.get<Product[]>(`${this.APIURL}`, {
+    return this.http.get<Product[]>(`${this.APIURL}/products`, {
       params: {limit, offset},
       context: checkTime()
     }).pipe(
@@ -33,8 +33,17 @@ export class ProductsService {
     )
   }
 
+  getByCategory(category: string, limit = 10, offset?: number) {
+    const params = new HttpParams()
+    params.set('limit', limit)
+    if (offset) {
+      params.set('offset', offset)
+    }
+    return this.http.get<Product[]>(`${this.APIURL}/categories/${category}/products`, { params })
+  }
+
   getProductById(id: number) {
-    return this.http.get<Product>(`${this.APIURL}/${id}`)
+    return this.http.get<Product>(`${this.APIURL}/products/${id}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           if (error.status >= HttpStatusCode.InternalServerError) {
@@ -49,14 +58,14 @@ export class ProductsService {
   }
 
   create(newProduct: CreateProductDTO) {
-    return this.http.post<Product>(`${this.APIURL}`, newProduct)
+    return this.http.post<Product>(`${this.APIURL}/products`, newProduct)
   }
 
   update(id: number, dto: UpdateProductDTO) {
-    return this.http.put<Product>(`${this.APIURL}/${id}`, dto)
+    return this.http.put<Product>(`${this.APIURL}/products/${id}`, dto)
   }
 
   delete(id: number) {
-    return this.http.delete<boolean>(`${this.APIURL}/${id}`)
+    return this.http.delete<boolean>(`${this.APIURL}/products/${id}`)
   }
 }

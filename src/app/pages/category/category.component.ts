@@ -1,10 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { ProductsService } from '../../services/products.service'
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
+  private limit = 10
+  private offset = 0
+
+  categoryId: string | null = null
+  products: Product[] = []
+
+  constructor(
+    private route: ActivatedRoute,
+    private productsService: ProductsService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.categoryId = params.get('id')
+      this.loadMore()
+    })
+  }
+
+  loadMore() {
+    this.productsService.getByCategory(this.categoryId ?? '', this.limit, this.offset)
+      .subscribe((data) => {
+        this.products.push(...data)
+        this.offset += this.limit
+      })
+  }
 
 }
