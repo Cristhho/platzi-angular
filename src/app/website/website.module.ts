@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { register } from 'swiper/element/bundle';
+import { QuicklinkModule } from 'ngx-quicklink';
 
 import { WebsiteRoutingModule } from './website-routing.module';
 import { NavComponent } from './components/nav/nav.component';
@@ -32,7 +33,8 @@ register()
   imports: [
     CommonModule,
     WebsiteRoutingModule,
-    SharedModule
+    SharedModule,
+    QuicklinkModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
