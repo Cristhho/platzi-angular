@@ -42,7 +42,7 @@ export class ProductsService {
     return this.http.get<Product[]>(`${this.APIURL}/categories/${category}/products`, { params })
   }
 
-  getProductById(id: number) {
+  getProductById(id: number|string) {
     return this.http.get<Product>(`${this.APIURL}/products/${id}`)
       .pipe(
         catchError((error: HttpErrorResponse) => {
