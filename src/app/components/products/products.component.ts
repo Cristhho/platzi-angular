@@ -11,6 +11,11 @@ import { CreateProductDTO, Product, UpdateProductDTO } from '../../models/produc
 })
 export class ProductsComponent {
   @Input() products: Product[] = []
+  @Input()
+  set productId(id: string | null) {
+    this.onShowProductDetail(id ? +id : 0)
+  }
+
   @Output() loadMore = new EventEmitter()
 
   shoppingCart: Product[] = []
