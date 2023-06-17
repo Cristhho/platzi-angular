@@ -24,6 +24,10 @@ const routes: Routes = [
     path: 'category/:id',
     component: CategoryComponent
   },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
