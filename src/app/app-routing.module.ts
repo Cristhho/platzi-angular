@@ -28,13 +28,17 @@ const routes: Routes = [
       {
         path: 'product/:id',
         component: ProductDetailComponent
-      },
-      {
-        path: '**',
-        component: NotFoundComponent
       }
     ]
   },
+  {
+    path: 'admin',
+    loadChildren: () => import('./cms/cms.module').then((module) => module.CmsModule)
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({
