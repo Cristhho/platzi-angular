@@ -1,6 +1,8 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 import { FilesService } from './services/files.service';
+import { AuthService } from './services/auth.service';
+import { TokenService } from './services/token.service';
 
 
 //https://www.w3schools.com/howto/img_avatar.png
@@ -9,11 +11,13 @@ import { FilesService } from './services/files.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   imgInput = '';
 
   constructor(
-    private fileService: FilesService
+    private fileService: FilesService,
+    private authService: AuthService,
+    private tokenService: TokenService,
   ) {}
 
   onLoaded(event: string) {
@@ -29,6 +33,13 @@ export class AppComponent {
       console.log(data)
     })
   }*/
+
+  ngOnInit(): void {
+    const token = this.tokenService.getToken()
+    if (token) {
+      this.authService.profile().subscribe()
+    }
+  }
 
   downloadPdf() {
     this.fileService.getFile('pdf.pdf', 'https://young-sands-07814.herokuapp.com/api/files/dummy.pdf', 'application/pdf')
