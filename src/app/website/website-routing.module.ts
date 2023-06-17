@@ -21,7 +21,10 @@ const routes: Routes = [
       },
       {
         path: 'category',
-        loadChildren: () => import('./pages/category/category.module').then((module) => module.CategoryModule)
+        loadChildren: () => import('./pages/category/category.module').then((module) => module.CategoryModule),
+        data: {
+          preload: true
+        }
       },
       {
         path: 'product/:id',
