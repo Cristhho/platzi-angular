@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import { switchMap } from 'rxjs';
 
-import { ProductsService } from '../../services/products.service'
-import { Product } from '../../models/product.model';
+import { ProductsService } from '../../../services/products.service'
+import { Product } from '../../../models/product.model';
 
 @Component({
   selector: 'app-product-detail',
