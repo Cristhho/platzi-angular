@@ -24,6 +24,7 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.categoryId = params.get('id')
+      this.products = []
       this.loadMore()
     })
   }
