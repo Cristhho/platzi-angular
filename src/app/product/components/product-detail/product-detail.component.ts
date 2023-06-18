@@ -11,7 +11,7 @@ import { Product } from './../../../core/models/product.model';
 })
 export class ProductDetailComponent implements OnInit {
 
-  product: Product | any;
+  product!: Product;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,7 +22,8 @@ export class ProductDetailComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const id:any = params.get('id');
       this.fetchProduct(id);
-      // this.product = this.productsService.getProduct(id);
+      this.productsService.getProduct(id)
+        .subscribe((prod) => this.product = prod)
     });
   }
 
@@ -35,9 +36,9 @@ export class ProductDetailComponent implements OnInit {
 
   createProduct() {
     const newProduct: Product = {
-      _id: '222',
-      name: 'nuevo desde angular',
-      image: 'assets/images/banner-1.jpg',
+      id: '222',
+      title: 'nuevo desde angular',
+      images: ['assets/images/banner-1.jpg'],
       price: 3000,
       description: 'nuevo producto'
     };

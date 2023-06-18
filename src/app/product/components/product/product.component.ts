@@ -18,7 +18,7 @@ import { CartService } from './../../../core/services/cart.service';
 })
 export class ProductComponent implements OnInit, OnDestroy {
 
-  @Input() product: Product | any;
+  @Input() product!: Product;
   @Output() productClicked: EventEmitter<any> = new EventEmitter();
 
   today = new Date();
@@ -40,7 +40,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   addCart() {
     console.log('añadir al carrito');
     this.cartService.addCart(this.product);
-    // this.productClicked.emit(this.product.id);
+    //this.productClicked.emit(this.product.id);
   }
 
 }

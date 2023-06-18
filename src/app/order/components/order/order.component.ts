@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { CartService } from './../../../core/services/cart.service';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.scss']
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent {
 
   products$: Observable<Product[]>;
 
@@ -18,9 +18,6 @@ export class OrderComponent implements OnInit {
     private cartService: CartService
   ) {
     this.products$ = this.cartService.cart$;
-  }
-
-  ngOnInit() {
   }
 
 }
