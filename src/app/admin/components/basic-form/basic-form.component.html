@@ -31,3 +31,23 @@
   Phone: {{ ageField.value }}
   <input type="number" [formControl]="ageField"/>
 </p>
+
+<p>
+  Category: {{categoryField.value}}
+  <select [formControl]="categoryField">
+    <option value="cat_1">Category 1</option>
+    <option value="cat_2">Category 2</option>
+    <option value="cat_3">Category 3</option>
+    <option value="cat_4">Category 4</option>
+  </select>
+</p>
+
+<p>
+  Tags: {{tagsField.value}}
+  <select [formControl]="tagsField" multiple>
+    <option value="tag_1">Tag 1</option>
+    <option value="tag_2">Tag 2</option>
+    <option value="tag_3">Tag 3</option>
+    <option value="tag_4">Tag 4</option>
+  </select>
+</p>
