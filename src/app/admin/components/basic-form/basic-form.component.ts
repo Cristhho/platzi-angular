@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-form',
@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class BasicFormComponent implements OnInit {
 
-  nameField = new FormControl('');
+  nameField = new FormControl('', [Validators.required, Validators.maxLength(20)]);
   emailField = new FormControl('');
   phoneField = new FormControl('');
   colorField = new FormControl('#000000');
@@ -17,6 +17,9 @@ export class BasicFormComponent implements OnInit {
 
   categoryField = new FormControl('cat_1')
   tagsField = new FormControl('')
+  agreementField = new FormControl(false)
+  genderField = new FormControl()
+  zoneField = new FormControl()
 
   ngOnInit(): void {
     this.nameField.valueChanges
