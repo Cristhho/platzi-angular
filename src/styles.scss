@@ -1,15 +1,52 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$angular-forms-primary: mat.define-palette(mat.$indigo-palette);
+$angular-forms-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$angular-forms-warn: mat.define-palette(mat.$red-palette);
+
+$angular-forms-theme: mat.define-light-theme((
+  color: (
+    primary: $angular-forms-primary,
+    accent: $angular-forms-accent,
+    warn: $angular-forms-warn,
+  )
+));
+
+@include mat.all-component-themes($angular-forms-theme);
+
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
-@import url(./styles/reset.scss);
 
 * {
   font-family: 'Quicksand', sans-serif;
 }
 
-.products--grid{
-  app-img{
-    img{
-      border-radius: 16px;
-    }
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 50px 20px;
+}
+
+.container {
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .container {
+    max-width: 1110px;
+    padding-right: 16px;
+    padding-left: 16px;
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

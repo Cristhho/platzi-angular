@@ -1,38 +1,35 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { register } from 'swiper/element/bundle';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { ImgComponent } from './components/img/img.component';
-import { ProductComponent } from './components/product/product.component';
-import { ProductsComponent } from './components/products/products.component';
-import { ReversePipe } from './pipes/reverse.pipe';
-import { TimeAgoPipe } from './pipes/time-ago.pipe';
-import { HighlightDirective } from './directives/highlight.directive';
+import { ExponentialPipe } from './pipes/exponential/exponential.pipe';
+import { HighlightDirective } from './directives/highlight/highlight.directive';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { CartComponent } from './components/cart/cart.component';
 
-register()
+import { MaterialModule } from './../material/material.module';
 
 @NgModule({
   declarations: [
-    ImgComponent,
-    ProductComponent,
-    ProductsComponent,
-    ReversePipe,
-    TimeAgoPipe,
-    HighlightDirective
+    ExponentialPipe,
+    HighlightDirective,
+    HeaderComponent,
+    FooterComponent,
+    CartComponent
+  ],
+  exports: [
+    ExponentialPipe,
+    HighlightDirective,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
-  ],
-  exports: [
-    ImgComponent,
-    ProductComponent,
-    ProductsComponent,
-    ReversePipe,
-    TimeAgoPipe,
-    HighlightDirective
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    RouterModule,
+    MaterialModule,
+    ReactiveFormsModule
+  ]
 })
 export class SharedModule { }
