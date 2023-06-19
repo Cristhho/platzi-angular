@@ -1,25 +1,37 @@
 <form [formGroup]="form" (ngSubmit)="save()">
-  <p>
-    Name: {{nameField?.valid}}
-    <input
-      type="text"
-      formControlName="name"
-      [class.is-valid]="nameField?.touched && nameField?.valid"
-      [class.is-invalid]="nameField?.dirty && nameField?.invalid"
-    />
-    <button (click)="getNameValue()" [disabled]="nameField?.invalid">Get value</button>
-  </p>
-  <div
-    class="messages"
-    [class.active]="nameField?.touched && nameField?.invalid">
-    <p *ngIf="nameField?.hasError('required')">
-      <strong>Este campo es obligatorio</strong>
+  <div formGroupName="fullName">
+    <p>
+      Name: {{nameField?.valid}}
+      <input
+        type="text"
+        formControlName="name"
+        [class.is-valid]="nameField?.touched && nameField?.valid"
+        [class.is-invalid]="nameField?.dirty && nameField?.invalid"
+      />
+      <button (click)="getNameValue()" [disabled]="nameField?.invalid">Get value</button>
     </p>
-    <p *ngIf="nameField?.hasError('maxlength') && nameField?.dirty">
-      <strong>Maximo 20 caracteres</strong>
-    </p>
-    <p *ngIf="nameField?.hasError('pattern') && nameField?.dirty">
-      <strong>Solo se permiten letras</strong>
+    <div
+      class="messages"
+      [class.active]="nameField?.touched && nameField?.invalid">
+      <p *ngIf="nameField?.hasError('required')">
+        <strong>Este campo es obligatorio</strong>
+      </p>
+      <p *ngIf="nameField?.hasError('maxlength') && nameField?.dirty">
+        <strong>Maximo 20 caracteres</strong>
+      </p>
+      <p *ngIf="nameField?.hasError('pattern') && nameField?.dirty">
+        <strong>Solo se permiten letras</strong>
+      </p>
+    </div>
+
+    <p>
+      Last Name: {{lastNameField?.valid}}
+      <input
+        type="text"
+        formControlName="lastName"
+        [class.is-valid]="lastNameField?.touched && lastNameField?.valid"
+        [class.is-invalid]="lastNameField?.dirty && lastNameField?.invalid"
+      />
     </p>
   </div>
 

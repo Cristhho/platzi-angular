@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -6,11 +6,14 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
   templateUrl: './basic-form.component.html',
   styleUrls: ['./basic-form.component.scss']
 })
-export class BasicFormComponent implements OnInit {
+export class BasicFormComponent {
 
   form!: FormGroup
   get nameField() {
-    return this.form.get('name')
+    return this.form.get('fullName')?.get('name')
+  }
+  get lastNameField() {
+    return this.form.get('fullName')?.get('lastName')
   }
   get emailField() {
     return this.form.get('email')
@@ -49,13 +52,6 @@ export class BasicFormComponent implements OnInit {
     this.buildForm()
   }
 
-  ngOnInit(): void {
-    this.nameField?.valueChanges
-    .subscribe(value => {
-      console.log(value);
-    });
-  }
-
   getNameValue() {
     console.log(this.nameField?.value);
   }
@@ -70,18 +66,21 @@ export class BasicFormComponent implements OnInit {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-    name: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^[a-zA-Z]+/)]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', Validators.required],
-    color: ['#000000'],
-    date: [''],
-    age: [12, [Validators.required, Validators.min(18), Validators.max(100)]],
-    category: ['cat_1'],
-    tags: [''],
-    agreement: [false, Validators.requiredTrue],
-    gender: [''],
-    zone: ['']
-  })
+      fullName: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^[a-zA-Z]+/)]],
+        lastName: [''],
+      }),
+      email: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
+      color: ['#000000'],
+      date: [''],
+      age: [12, [Validators.required, Validators.min(18), Validators.max(100)]],
+      category: ['cat_1'],
+      tags: [''],
+      agreement: [false, Validators.requiredTrue],
+      gender: [''],
+      zone: ['']
+    })
   }
 
 }

@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  hmr: true,
   url_api: 'https://api.escuelajs.co/api/v1',
   firebase: {
     projectId: 'platzi-angular-f4dd3',
