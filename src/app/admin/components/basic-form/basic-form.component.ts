@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-basic-form',
   templateUrl: './basic-form.component.html',
-  styleUrls: ['./basic-form.component.scss']
+  styleUrls: ['./basic-form.component.scss'],
 })
 export class BasicFormComponent {
 
@@ -67,13 +67,13 @@ export class BasicFormComponent {
   private buildForm() {
     this.form = this.formBuilder.group({
       fullName: this.formBuilder.group({
-        name: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^[a-zA-Z]+/)]],
+        name: ['', [Validators.required, Validators.maxLength(20), Validators.pattern(/^[a-zA-Z ]+$/)]],
         lastName: [''],
       }),
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       color: ['#000000'],
-      date: [''],
+      date: [new FormControl<Date | null>(null)],
       age: [12, [Validators.required, Validators.min(18), Validators.max(100)]],
       category: ['cat_1'],
       tags: [''],

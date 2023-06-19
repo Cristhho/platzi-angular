@@ -1,3 +1,7 @@
+:host{
+  padding: 2rem;
+  display: block;
+}
 input{
   &.is-valid {
     border: 2px solid green;
@@ -15,4 +19,15 @@ input{
   & strong {
       color: darkred;
   }
+}
+mat-form-field{
+  width: 100%;
+  max-width: 300px;
+  display: block;
+}
+form>div mat-form-field{
+  display: inline-block;
+}
+form>div mat-form-field + mat-form-field{
+  margin-left: 1rem;
 }
