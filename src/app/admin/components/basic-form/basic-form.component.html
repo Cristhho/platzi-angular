@@ -8,18 +8,18 @@
       [class.is-invalid]="nameField?.dirty && nameField?.invalid"
     />
     <button (click)="getNameValue()" [disabled]="nameField?.invalid">Get value</button>
-    <!-- <code>
-      <pre>{{ nameField | json }}</pre>
-    </code> -->
   </p>
   <div
     class="messages"
     [class.active]="nameField?.touched && nameField?.invalid">
-    <p *ngIf="nameField?.hasError('required') && nameField?.touched">
+    <p *ngIf="nameField?.hasError('required')">
       <strong>Este campo es obligatorio</strong>
     </p>
     <p *ngIf="nameField?.hasError('maxlength') && nameField?.dirty">
       <strong>Maximo 20 caracteres</strong>
+    </p>
+    <p *ngIf="nameField?.hasError('pattern') && nameField?.dirty">
+      <strong>Solo se permiten letras</strong>
     </p>
   </div>
 
@@ -27,11 +27,28 @@
     Email: {{ emailField?.value }}
     <input type="email" formControlName="email"/>
   </p>
+  <div
+    class="messages"
+    [class.active]="emailField?.touched && emailField?.invalid">
+    <p *ngIf="emailField?.hasError('required')">
+      <strong>Este campo es obligatorio</strong>
+    </p>
+    <p *ngIf="emailField?.hasError('email')">
+      <strong>El email no es válido</strong>
+    </p>
+  </div>
 
   <p>
     Phone: {{ phoneField?.value }}
     <input type="tel" formControlName="phone"/>
   </p>
+  <div
+    class="messages"
+    [class.active]="phoneField?.touched && phoneField?.invalid">
+    <p *ngIf="phoneField?.hasError('required')">
+      <strong>Este campo es obligatorio</strong>
+    </p>
+  </div>
 
   <p>
     Color: {{ colorField?.value }}
@@ -44,9 +61,19 @@
   </p>
 
   <p>
-    Phone: {{ ageField?.value }}
+    Age: {{ ageField?.value }}
     <input type="number" formControlName="age"/>
   </p>
+  <div
+    class="messages"
+    [class.active]="ageField?.touched && ageField?.invalid">
+    <p *ngIf="ageField?.hasError('required')">
+      <strong>Este campo es obligatorio</strong>
+    </p>
+    <p *ngIf="ageField?.hasError('min') || ageField?.hasError('max')">
+      <strong>Edad debe estar entre 18 y 100 años</strong>
+    </p>
+  </div>
 
   <p>
     Category: {{categoryField?.value}}
@@ -72,6 +99,13 @@
     Agree: {{agreementField?.value}}
     <input type="checkbox" formControlName="agreement" />
   </p>
+  <div
+    class="messages"
+    [class.active]="agreementField?.touched && agreementField?.invalid">
+    <p *ngIf="agreementField?.hasError('required')">
+      <strong>Debe aceptar los terminos y condiciones</strong>
+    </p>
+  </div>
 
   <p>
     Gender: {{genderField?.value}}
