@@ -16,6 +16,9 @@ export class RegisterComponent {
   get passwordField() {
     return this.form.get('password')
   }
+  get confirmPasswordField() {
+    return this.form.get('confirmPassword')
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,6 +43,9 @@ export class RegisterComponent {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
+      confirmPassword: ['', [Validators.required]],
+    }, {
+      validators: MyValidators.matchPasswords
     });
   }
 

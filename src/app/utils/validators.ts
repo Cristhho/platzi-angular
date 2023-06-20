@@ -1,4 +1,4 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 export class MyValidators {
 
@@ -23,6 +23,12 @@ export class MyValidators {
     return null
   }
 
+  static matchPasswords(control: FormGroup) {
+    const pass = control.get('password')?.value
+    const confirm = control.get('confirmPassword')?.value
+
+    return (pass === confirm) ? null : {doesnt_match: true}
+  }
 
 }
 

@@ -29,7 +29,12 @@
         <div class="col-xs">
           <mat-form-field>
             <mat-label>Confirm Password</mat-label>
-            <input placeholder="password" formControlName="password" matInput type="password">
+            <input placeholder="password" formControlName="confirmPassword" matInput type="password">
+            <div *ngIf="confirmPasswordField?.touched && form.errors">
+              <mat-error *ngIf="form.hasError('doesnt_match')">
+                La contraseña debe ser igual
+              </mat-error>
+            </div>
           </mat-form-field>
         </div>
       </div>
