@@ -17,6 +17,11 @@
           <mat-form-field>
             <mat-label>Password</mat-label>
             <input placeholder="password" formControlName="password" matInput type="password">
+            <div *ngIf="passwordField?.touched && passwordField?.invalid">
+              <mat-error *ngIf="passwordField?.hasError('invalid_password')">
+                La contraseña debe tener al menos 1 número
+              </mat-error>
+            </div>
           </mat-form-field>
         </div>
       </div>
@@ -30,8 +35,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button [disabled]="form.invalid" mat-raised-button type="submit">Registro</button>
+      <button mat-raised-button type="submit">Registro</button>
     </mat-card-actions>
   </mat-card>
-
 </form>

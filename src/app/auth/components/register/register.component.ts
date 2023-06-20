@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from './../../../core/services/auth.service';
+import { MyValidators } from '../../../utils/validators';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
-  form: FormGroup | any;
+  form!: FormGroup;
+  get passwordField() {
+    return this.form.get('password')
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -19,9 +23,6 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService
   ) {
     this.buildForm();
-  }
-
-  ngOnInit() {
   }
 
   register(event: Event) {
@@ -38,7 +39,7 @@ export class RegisterComponent implements OnInit {
   private buildForm() {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
     });
   }
 

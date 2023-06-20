@@ -1,6 +1,6 @@
-// @import '~@angular/material/theming';
+@import '@angular/material/theming';
 
-$primary: mat-palette(blue);
+$primary: mat-palette($mat-indigo);
 
 footer {
   padding: 50px 0px;
