@@ -19,6 +19,12 @@ export class RegisterComponent {
   get confirmPasswordField() {
     return this.form.get('confirmPassword')
   }
+  get typeField() {
+    return this.form.get('type')
+  }
+  get companyField() {
+    return this.form.get('companyName')
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,9 +50,22 @@ export class RegisterComponent {
       email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
       confirmPassword: ['', [Validators.required]],
+      type: ['company', Validators.required],
+      companyName: ['', Validators.required]
     }, {
       validators: MyValidators.matchPasswords
     });
+
+    this.typeField?.valueChanges
+      .subscribe((value) => {
+        if (value === 'company') {
+          this.companyField?.setValidators(Validators.required)
+        } else {
+          this.companyField?.setValidators(null)
+        }
+
+        this.companyField?.updateValueAndValidity()
+      })
   }
 
 }
