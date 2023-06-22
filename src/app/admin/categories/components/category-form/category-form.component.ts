@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Storage, getDownloadURL, listAll, ref, uploadBytesResumable } from '@angular/fire/storage';
 
 import { CategoriesService } from '../../../../core/services/categories.service';
@@ -11,7 +11,9 @@ import { MyValidators } from '../../../../utils/validators';
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss']
 })
-export class CategoryFormComponent {
+export class CategoryFormComponent implements OnInit {
+  id?: string
+
   form!: FormGroup
   get nameField() {
     return this.form.get('name')
@@ -24,9 +26,19 @@ export class CategoryFormComponent {
     private formBuilder: FormBuilder,
     private categoryService: CategoriesService,
     private router: Router,
+    private route: ActivatedRoute,
     private storage: Storage
   ) {
     this.buildForm()
+  }
+
+  ngOnInit(): void {
+      this.route.params.subscribe((params) => {
+        this.id = params['id']
+        if (this.id) {
+          this.getCategory()
+        }
+      })
   }
 
   private buildForm() {
@@ -44,6 +56,12 @@ export class CategoryFormComponent {
     } else {
       this.form.markAllAsTouched()
     }
+  }
+
+  private getCategory() {
+    this.categoryService.getById(this.id!).subscribe((data) => {
+      this.form.patchValue(data)
+    })
   }
 
   uploadFile(event: Event) {

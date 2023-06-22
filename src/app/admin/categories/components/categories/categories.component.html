@@ -8,6 +8,9 @@
         </mat-card-title>
       </mat-card-header>
       <img mat-card-image [src]="category.image" [alt]="category.name">
+      <mat-card-actions>
+        <a mat-raised-button [routerLink]="['edit', category.id]">Editar</a>
+      </mat-card-actions>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
