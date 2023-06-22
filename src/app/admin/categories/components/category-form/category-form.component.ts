@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Storage, getDownloadURL, listAll, ref, uploadBytesResumable } from '@angular/fire/storage';
 
 import { CategoriesService } from '../../../../core/services/categories.service';
 
@@ -21,7 +22,8 @@ export class CategoryFormComponent {
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoriesService,
-    private router: Router
+    private router: Router,
+    private storage: Storage
   ) {
     this.buildForm()
   }
@@ -41,6 +43,20 @@ export class CategoryFormComponent {
     } else {
       this.form.markAllAsTouched()
     }
+  }
+
+  uploadFile(event: Event) {
+    const target = event.target as HTMLInputElement
+    const imageFile = target.files?.item(0) as File
+    const name = `${imageFile.name}`
+    const fileRef = ref(this.storage, name)
+    const task = uploadBytesResumable(fileRef, imageFile)
+    task.then(() => {
+      listAll(fileRef).then(async () => {
+        const url = await getDownloadURL(fileRef)
+        this.imageField?.setValue(url)
+      })
+    })
   }
 
 }
