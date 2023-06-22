@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Storage, getDownloadURL, listAll, ref, uploadBytesResumable } from '@angular/fire/storage';
 
 import { CategoriesService } from '../../../../core/services/categories.service';
+import { MyValidators } from '../../../../utils/validators';
 
 @Component({
   selector: 'app-category-form',
@@ -30,7 +31,7 @@ export class CategoryFormComponent {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', Validators.required, MyValidators.validateCategory(this.categoryService)],
       image: ['', Validators.required]
     })
   }

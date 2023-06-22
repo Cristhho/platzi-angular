@@ -1,4 +1,7 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { map } from 'rxjs'
+
+import { CategoriesService } from '../core/services/categories.service';
 
 export class MyValidators {
 
@@ -28,6 +31,22 @@ export class MyValidators {
     const confirm = control.get('confirmPassword')?.value
 
     return (pass === confirm) ? null : {doesnt_match: true}
+  }
+
+  static validateCategory(service: CategoriesService) {
+    return (control: AbstractControl) => {
+      const value = control.value
+      return service.checkCatAvailability(value).pipe(
+        map((res) => {
+          const isAvailable = res.isAvailable
+          if (!isAvailable) {
+            return {not_available: true}
+          }
+
+          return null
+        })
+      )
+    }
   }
 
 }
