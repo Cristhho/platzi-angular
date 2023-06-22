@@ -1,1 +1,13 @@
-<p>categories works!</p>
+<a mat-raised-button routerLink="create">Crear categoria</a>
+<mat-grid-list [cols]="cols | async">
+  <mat-grid-tile *ngFor="let category of categories">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          {{category.name}}
+        </mat-card-title>
+      </mat-card-header>
+      <img mat-card-image [src]="category.image" [alt]="category.name">
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
