@@ -1,18 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Storage, getDownloadURL, listAll, ref, uploadBytesResumable } from '@angular/fire/storage';
+import { Component, Input, Output, EventEmitter } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Storage, getDownloadURL, listAll, ref, uploadBytesResumable } from '@angular/fire/storage'
 
-import { CategoriesService } from '../../../../core/services/categories.service';
-import { MyValidators } from '../../../../utils/validators';
+import { CategoriesService } from '../../../../core/services/categories.service'
+import { MyValidators } from '../../../../utils/validators'
+import { Category } from '../../../../core/models/category.model'
 
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss']
 })
-export class CategoryFormComponent implements OnInit {
-  id?: string
+export class CategoryFormComponent {
+
+  isnew = true
+
+  @Input()
+  set category(data: Category | undefined) {
+    if (data) {
+      this.isnew = false
+      this.form.patchValue(data)
+    }
+  }
+  @Output() create = new EventEmitter<Category>()
+  @Output() update = new EventEmitter<Category>()
 
   form!: FormGroup
   get nameField() {
@@ -23,59 +34,31 @@ export class CategoryFormComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
     private categoryService: CategoriesService,
-    private router: Router,
-    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
     private storage: Storage
   ) {
     this.buildForm()
   }
 
-  ngOnInit(): void {
-      this.route.params.subscribe((params) => {
-        this.id = params['id']
-        if (this.id) {
-          this.getCategory()
-        }
-      })
-  }
-
   private buildForm() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required, MyValidators.validateCategory(this.categoryService)],
+      //name: ['', Validators.required, MyValidators.validateCategory(this.categoryService)],
+      name: ['', Validators.required],
       image: ['', Validators.required]
     })
   }
 
   save() {
     if (this.form.valid) {
-      if (this.id) {
-        this.updateCategory()
+      if (!this.isnew) {
+        this.update.emit(this.form.value)
       } else {
-        this.createCategory()
+        this.create.emit(this.form.value)
       }
     } else {
       this.form.markAllAsTouched()
     }
-  }
-
-  private createCategory() {
-    const data = this.form.value
-    this.categoryService.create(data)
-      .subscribe(() => this.router.navigate(['/admin/categories']))
-  }
-
-  private getCategory() {
-    this.categoryService.getById(this.id!).subscribe((data) => {
-      this.form.patchValue(data)
-    })
-  }
-
-  private updateCategory() {
-    const data = this.form.value
-    this.categoryService.update(this.id!, data)
-        .subscribe(() => this.router.navigate(['/admin/categories']))
   }
 
   uploadFile(event: Event) {
