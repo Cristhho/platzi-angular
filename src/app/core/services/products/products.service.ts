@@ -22,7 +22,7 @@ export class ProductsService {
     return this.http.get<Product>(`${environment.url_api}/products/${id}`);
   }
 
-  createProduct(product: Product) {
+  createProduct(product: Omit<Product, 'category'>) {
     return this.http.post(`${environment.url_api}/products`, product);
   }
 

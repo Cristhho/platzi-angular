@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Storage, getDownloadURL, listAll, ref, uploadBytesResumable } from '@angular/fire/storage'
 
 import { MyValidators } from './../../../../utils/validators';
 import { ProductsService } from './../../../../core/services/products/products.service';
+import { CategoriesService } from './../../../../core/services/categories.service';
+import { Category } from '../../../../core/models/category.model';
 
 @Component({
   selector: 'app-product-edit',
@@ -12,25 +15,40 @@ import { ProductsService } from './../../../../core/services/products/products.s
 })
 export class ProductEditComponent implements OnInit {
 
-  form: FormGroup | any;
-  id: string | any;
+  form!: FormGroup
+  get priceField() {
+    return this.form.get('price');
+  }
+  get imageField() {
+    return this.form.get('image')
+  }
+
+  id: string | null = null;
+
+  categories: Category[] = []
 
   constructor(
     private formBuilder: FormBuilder,
     private productsService: ProductsService,
+    private categoryService: CategoriesService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private storage: Storage
   ) {
     this.buildForm();
+    this.getCategories()
   }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe((params) => {
       this.id = params.get('id');
-      this.productsService.getProduct(this.id)
-      .subscribe(product => {
-        this.form.patchValue(product);
-      });
+      if (this.id) {
+        this.productsService.getProduct(this.id)
+        .subscribe(product => {
+          this.form.patchValue(product);
+          this.form.get('category')?.setValue(product.category.id)
+        });
+      }
     });
   }
 
@@ -38,11 +56,11 @@ export class ProductEditComponent implements OnInit {
     event.preventDefault();
     if (this.form.valid) {
       const product = this.form.value;
-      this.productsService.updateProduct(this.id, product)
-      .subscribe((newProduct) => {
-        console.log(newProduct);
-        this.router.navigate(['./admin/products']);
-      });
+      this.productsService.updateProduct(this.id!, product)
+        .subscribe((newProduct) => {
+          console.log(newProduct);
+          this.router.navigate(['./admin/products']);
+        });
     }
   }
 
@@ -53,11 +71,26 @@ export class ProductEditComponent implements OnInit {
       price: ['', [Validators.required, MyValidators.isPriceValid]],
       image: [''],
       description: ['', [Validators.required]],
+      category: ['', [Validators.required]],
     });
   }
 
-  get priceField() {
-    return this.form.get('price');
+  uploadFile(event: Event) {
+    const target = event.target as HTMLInputElement
+    const imageFile = target.files?.item(0) as File
+    const name = `${imageFile.name}`
+    const fileRef = ref(this.storage, name)
+    const task = uploadBytesResumable(fileRef, imageFile)
+    task.then(() => {
+      listAll(fileRef).then(async () => {
+        const url = await getDownloadURL(fileRef)
+        this.imageField?.setValue(url)
+      })
+    })
+  }
+
+  private getCategories() {
+    this.categoryService.getAll().subscribe((data) => this.categories = data)
   }
 
 }
