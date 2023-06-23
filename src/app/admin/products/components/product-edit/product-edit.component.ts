@@ -46,7 +46,7 @@ export class ProductEditComponent implements OnInit {
         this.productsService.getProduct(this.id)
         .subscribe(product => {
           this.form.patchValue(product);
-          this.form.get('category')?.setValue(product.category.id)
+          this.form.get('category')?.setValue((product.category as Category).id)
         });
       }
     });
