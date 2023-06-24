@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { map } from 'rxjs/operators';
 
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent {
 
+  installEvent?: BeforeInstallPromptEvent
   total$: Observable<number>;
 
   constructor(
@@ -21,6 +22,22 @@ export class HeaderComponent {
     .pipe(
       map(products => products.length)
     );
+  }
+
+  @HostListener('window:beforeinstallprompt', ['$event'])
+  onBeforeinstallprompt(event: BeforeInstallPromptEvent) {
+    event.preventDefault()
+    this.installEvent = event
+  }
+
+  install() {
+    if (this.installEvent) {
+      this.installEvent.prompt()
+      this.installEvent.userChoice
+        .then((res) => {
+          //
+        })
+    }
   }
 
 }
