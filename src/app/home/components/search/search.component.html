@@ -1,0 +1,4 @@
+<p><input type="search" [formControl]="search" placeholder="Search..." /></p>
+<div>
+  <img *ngFor="let image of result" [src]="image.url" alt="" />
+</div>
