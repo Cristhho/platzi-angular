@@ -73,6 +73,7 @@ export class ProductCreateComponent {
       image: [''],
       description: ['', [Validators.required]],
       category: ['', [Validators.required]],
+      stock: [2, Validators.required]
     });
   }
 
