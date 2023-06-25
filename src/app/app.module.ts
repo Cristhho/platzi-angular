@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { provideAnalytics, getAnalytics, ScreenTrackingService } from '@angular/fire/analytics';
+import {provideClientHydration} from '@angular/platform-browser';
 
 import { LayoutComponent } from './layout/layout.component';
 
@@ -60,7 +61,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   providers: [
     {
       provide: ScreenTrackingService
-    }
+    },
+    provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })
