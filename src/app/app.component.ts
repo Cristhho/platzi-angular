@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { SwUpdate } from '@angular/service-worker';
 
 @Component({
@@ -10,11 +11,14 @@ export class AppComponent implements OnInit {
   title = 'angular-forms';
 
   constructor(
-    private update: SwUpdate
+    private update: SwUpdate,
+    private messaging: AngularFireMessaging
   ){}
 
   ngOnInit(): void {
       this.updatePWA()
+      this.requestPermission()
+      this.listenNotifications()
   }
 
   updatePWA() {
@@ -23,5 +27,19 @@ export class AppComponent implements OnInit {
         window.location.reload()
       }
     })
+  }
+
+  requestPermission() {
+    this.messaging.requestToken
+      .subscribe((token) => {
+        console.log(token)
+      })
+  }
+
+  listenNotifications() {
+    this.messaging.messages
+      .subscribe((message) => {
+        console.log(message)
+      })
   }
 }
