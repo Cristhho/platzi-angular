@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire/compat';
 import { getMessaging, MessagingModule, provideMessaging } from '@angular/fire/messaging';
+import { QuicklinkModule } from 'ngx-quicklink'
 import {
   AngularFireStorageModule,
 } from '@angular/fire/compat/storage';
@@ -52,6 +53,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    QuicklinkModule
   ],
   providers: [],
   bootstrap: [AppComponent]
