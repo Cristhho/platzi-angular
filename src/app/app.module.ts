@@ -9,6 +9,7 @@ import {
   AngularFireStorageModule,
 } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { provideAnalytics, getAnalytics, ScreenTrackingService } from '@angular/fire/analytics';
 
 import { LayoutComponent } from './layout/layout.component';
 
@@ -47,6 +48,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     provideMessaging(() => getMessaging()),
+    provideAnalytics(() => getAnalytics()),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
@@ -55,7 +57,11 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     }),
     QuicklinkModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: ScreenTrackingService
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

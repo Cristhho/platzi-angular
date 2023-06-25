@@ -8,6 +8,7 @@ export const environment = {
     projectId: 'platzi-store-forms',
     storageBucket: 'platzi-store-forms.appspot.com',
     messagingSenderId: '783669493891',
-    appId: '1:783669493891:web:f973c1ba9bb213e2c75bb6'
+    appId: '1:783669493891:web:f973c1ba9bb213e2c75bb6',
+    measurementId: "G-RFPM6EQGR4"
   }
 };

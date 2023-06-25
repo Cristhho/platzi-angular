@@ -8,5 +8,6 @@ export const environment = {
     apiKey: 'AIzaSyA-FhpQ6IArIqFRHPnVFuTwCjk2Qqx8EvI',
     authDomain: 'platzi-angular-f4dd3.firebaseapp.com',
     messagingSenderId: '589187018489',
+    measurementId: "G-RFPM6EQGR4"
   }
 };
