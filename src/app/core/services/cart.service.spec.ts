@@ -1,12 +1,21 @@
-import { TestBed } from '@angular/core/testing';
-
 import { CartService } from './cart.service';
 
 describe('CartService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: CartService;
+
+  beforeEach(() => {
+    service = new CartService();
+  });
 
   it('should be created', () => {
-    const service: CartService = TestBed.get(CartService);
     expect(service).toBeTruthy();
+  });
+
+  describe('test for get cartProducts', () => {
+    it('should return an empty array', () => {
+      const prods = service.cartProducts;
+      expect(Array.isArray(prods)).toBeTruthy();
+      expect(prods).toHaveSize(0);
+    });
   });
 });

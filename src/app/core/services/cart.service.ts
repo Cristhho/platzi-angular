@@ -14,7 +14,9 @@ export class CartService {
 
   cart$ = this.cart.asObservable();
 
-  constructor() { }
+  get cartProducts() {
+    return this.products
+  }
 
   addCart(product: Product) {
     this.products = [...this.products, product];
