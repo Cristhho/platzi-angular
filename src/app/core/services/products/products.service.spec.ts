@@ -20,6 +20,10 @@ fdescribe('ProductsService', () => {
     httpController = TestBed.inject(HttpTestingController);
   });
 
+  afterEach(() => {
+    httpController.verify();
+  })
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -32,7 +36,6 @@ fdescribe('ProductsService', () => {
 
     const req = httpController.expectOne(`${environment.url_api}/products`)
     req.flush([])
-    httpController.verify()
   });
 
   describe('when call getAllProducts', () => {
@@ -44,7 +47,6 @@ fdescribe('ProductsService', () => {
 
       const req = httpController.expectOne(`${environment.url_api}/products`);
       req.flush([]);
-      httpController.verify();
     });
 
     it('should return an array with 1 product', (done: DoneFn) => {
@@ -56,7 +58,6 @@ fdescribe('ProductsService', () => {
 
       const req = httpController.expectOne(`${environment.url_api}/products`);
       req.flush(mockData);
-      httpController.verify();
     });
 
     it('should return an array with many products', (done: DoneFn) => {
@@ -68,7 +69,6 @@ fdescribe('ProductsService', () => {
 
       const req = httpController.expectOne(`${environment.url_api}/products`);
       req.flush(mockData);
-      httpController.verify();
     });
   });
 
@@ -87,7 +87,22 @@ fdescribe('ProductsService', () => {
       const params = req.request.params
       expect(params.get('limit')).toEqual(`${limit}`)
       expect(params.get('offset')).toEqual(`${offset}`)
-      httpController.verify();
+    })
+  })
+
+  describe('when trying to create a new product', () => {
+    it('should create and return the created product', (done: DoneFn) => {
+      const mockData = createOneProduct();
+
+      service.createProduct({...mockData}).subscribe((data) => {
+        expect(data).toEqual(mockData)
+        done();
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products`);
+      req.flush(mockData);
+      expect(req.request.body).toEqual(mockData);
+      expect(req.request.method).toEqual('POST');
     })
   })
 });
