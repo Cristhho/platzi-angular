@@ -70,5 +70,24 @@ fdescribe('ProductsService', () => {
       req.flush(mockData);
       httpController.verify();
     });
+  });
+
+  describe('when call getPaginateProducts', () => {
+    it('should send query params with limit 10 and offset 0 and return 10 products', (done: DoneFn) => {
+      const mockData = createManyProducts(3);
+      const limit = 10;
+      const offset = 0;
+      service.getPaginateProducts(limit, offset).subscribe((data) => {
+        expect(data.length).toEqual(mockData.length);
+        done();
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products?limit=${limit}&offset=${offset}`);
+      req.flush(mockData);
+      const params = req.request.params
+      expect(params.get('limit')).toEqual(`${limit}`)
+      expect(params.get('offset')).toEqual(`${offset}`)
+      httpController.verify();
+    })
   })
 });
