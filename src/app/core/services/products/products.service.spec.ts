@@ -4,6 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ProductsService } from './products.service';
 import { environment } from '../../../../environments/environment';
 import { createOneProduct, createManyProducts } from '../../models/product.mock';
+import { HttpStatusCode } from '@angular/common/http';
 
 fdescribe('ProductsService', () => {
   let service: ProductsService;
@@ -141,5 +142,74 @@ fdescribe('ProductsService', () => {
       req.flush(true);
       expect(req.request.method).toEqual('DELETE');
     });
+  })
+
+  describe('when get a single product', () => {
+    it('should return the product', (done: DoneFn) => {
+      const mockData = createOneProduct();
+
+      service.getProduct('1').subscribe((data) => {
+        expect(data).toEqual(mockData);
+        done();
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products/1`);
+      req.flush(mockData);
+      expect(req.request.method).toEqual('GET');
+    });
+
+    it('should return an error if the product doesn\'t exist', (done: DoneFn) => {
+      const error = '404'
+      const mockError = {
+        status: HttpStatusCode.NotFound,
+        statusText: error
+      }
+      service.getProduct('1').subscribe({
+        error: (error) => {
+          expect(error).toEqual('El producto no existe');
+          done();
+        }
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products/1`);
+      expect(req.request.method).toEqual('GET');
+      req.flush(error, mockError);
+    })
+
+    it('should return an error if the user is not authorized', (done: DoneFn) => {
+      const error = '401'
+      const mockError = {
+        status: HttpStatusCode.Unauthorized,
+        statusText: error
+      }
+      service.getProduct('1').subscribe({
+        error: (error) => {
+          expect(error).toEqual('No estas permitido');
+          done();
+        }
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products/1`);
+      expect(req.request.method).toEqual('GET');
+      req.flush(error, mockError);
+    })
+
+    it('should return the default error message', (done: DoneFn) => {
+      const error = '500'
+      const mockError = {
+        status: HttpStatusCode.InternalServerError,
+        statusText: error
+      }
+      service.getProduct('1').subscribe({
+        error: (error) => {
+          expect(error).toEqual('Ups algo salio mal');
+          done();
+        }
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products/1`);
+      expect(req.request.method).toEqual('GET');
+      req.flush(error, mockError);
+    })
   })
 });
