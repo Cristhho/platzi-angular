@@ -105,4 +105,41 @@ fdescribe('ProductsService', () => {
       expect(req.request.method).toEqual('POST');
     })
   })
+
+  describe('when trying to update an existing product', () => {
+    it('should update the product with the new given data', (done: DoneFn) => {
+      const mockData = createOneProduct();
+      const changes = {
+        title: 'new title',
+        price: 100
+      }
+      const updated = {
+        ...mockData,
+        ...changes
+      }
+
+      service.updateProduct(mockData.id, changes).subscribe((data) => {
+        expect(data).toEqual(updated)
+        done();
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products/${mockData.id}`);
+      req.flush(updated);
+      expect(req.request.body).toEqual(changes);
+      expect(req.request.method).toEqual('PUT');
+    })
+  })
+
+  describe('when delete a product', () => {
+    it('should delete the product and return true', (done: DoneFn) => {
+      service.deleteProduct('1').subscribe((data) => {
+        expect(data).toBeTruthy()
+        done();
+      });
+
+      const req = httpController.expectOne(`${environment.url_api}/products/1`);
+      req.flush(true);
+      expect(req.request.method).toEqual('DELETE');
+    });
+  })
 });
