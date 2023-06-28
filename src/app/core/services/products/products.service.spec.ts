@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 import { createOneProduct, createManyProducts } from '../../models/product.mock';
 import { HttpStatusCode } from '@angular/common/http';
 
-fdescribe('ProductsService', () => {
+describe('ProductsService', () => {
   let service: ProductsService;
   let httpController: HttpTestingController;
 
