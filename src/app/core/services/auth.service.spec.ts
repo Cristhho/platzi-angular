@@ -10,7 +10,7 @@ const fireAuthMethods = [
   'signInWithEmailAndPassword'
 ]
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let service: AuthService
   let mockFirebaseAuth: jasmine.SpyObj<AngularFireAuth>
 
