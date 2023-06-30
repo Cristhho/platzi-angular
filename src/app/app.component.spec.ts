@@ -8,7 +8,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
     imports: [
       RouterTestingModule,
