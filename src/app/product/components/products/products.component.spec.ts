@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { defer, of } from 'rxjs';
 
 import { ProductsComponent } from './products.component';
 import { ProductComponent } from '../product/product.component';
@@ -67,5 +67,31 @@ fdescribe('ProductsComponent', () => {
       expect(debug.length).toEqual(products.length)
       expect(firstProductElement.textContent).toEqual(products.at(0)!.title.toUpperCase())
     })
+
+    it('should change status from loading to success', fakeAsync(() => {
+      const products = createManyProducts(5)
+      productService.getPaginateProducts.and.returnValue(defer(() => Promise.resolve(products)))
+      const prevLength = component.products.length
+
+
+      fixture.detectChanges()
+      expect(component.status).toEqual('loading')
+      tick()
+      fixture.detectChanges()
+
+      expect(component.products.length).toEqual(prevLength + products.length)
+      expect(component.status).toEqual('success')
+    }))
+
+    it('should change status from loading to error', fakeAsync(() => {
+      productService.getPaginateProducts.and.returnValue(defer(() => Promise.reject('error')))
+
+      fixture.detectChanges()
+      expect(component.status).toEqual('loading')
+      tick(2500)
+      fixture.detectChanges()
+
+      expect(component.status).toEqual('error')
+    }))
   })
 })

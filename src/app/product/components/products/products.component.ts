@@ -35,10 +35,18 @@ export class ProductsComponent implements OnInit {
   fetchProducts() {
     this.status = 'loading'
     this.productsService.getPaginateProducts(this._limit, this.offset)
-    .subscribe(products => {
-      this.products.push(...products)
-      this.offset += this._limit
-      this.status = 'success'
+    .subscribe({
+      next: (products) => {
+        this.products.push(...products)
+        this.offset += this._limit
+        this.status = 'success'
+      },
+      error: () => {
+        setTimeout(() => {
+          this.products = []
+          this.status = 'error'
+        }, 2000)
+      }
     });
   }
 
