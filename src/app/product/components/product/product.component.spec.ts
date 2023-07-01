@@ -6,6 +6,7 @@ import { MaterialModule } from '../../../material/material.module';
 import { ProductComponent } from './product.component';
 import { createOneProduct } from '../../../core/models/product.mock';
 import { Product } from '../../../core/models/product.model';
+import { Component } from '@angular/core';
 
 fdescribe('ProductComponent', () => {
   let component: ProductComponent
@@ -46,5 +47,46 @@ fdescribe('ProductComponent', () => {
     const debug = fixture.debugElement.query(By.css('button'))
     debug.triggerEventHandler('click', null)
     expect(spy).toHaveBeenCalled()
+  })
+})
+
+@Component({
+  template: `<app-product [product]="product" />`
+})
+class HostComponent {
+  product = createOneProduct()
+}
+
+fdescribe('ProductComponent from HostComponent', () => {
+  let component: HostComponent
+  let fixture: ComponentFixture<HostComponent>
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        MaterialModule,
+        RouterTestingModule
+      ],
+      declarations: [HostComponent, ProductComponent]
+    }).compileComponents()
+  })
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HostComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges()
+  })
+
+  it('should create', () => {
+    expect(component).toBeTruthy()
+  })
+
+  it('should display a product', () => {
+    const debug = fixture.debugElement.query(By.css('mat-card-title'))
+    const element: HTMLElement = debug.nativeElement
+    fixture.detectChanges()
+
+    expect(element).not.toBeUndefined()
+    expect(element.textContent).toEqual(component.product.title.toUpperCase())
   })
 })
