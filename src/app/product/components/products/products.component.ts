@@ -10,7 +10,14 @@ import { ProductsService } from './../../../core/services/products/products.serv
 })
 export class ProductsComponent implements OnInit {
 
-  products: Product[] = [];
+  products: Product[] = []
+  _limit = 10
+  offset = 0
+  status: 'loading' | 'success' | 'error' | 'init'= 'init'
+
+  set limit(limit: number) {
+    this._limit = limit
+  }
 
   constructor(
     private productsService: ProductsService
@@ -26,9 +33,12 @@ export class ProductsComponent implements OnInit {
   }
 
   fetchProducts() {
-    this.productsService.getAllProducts()
+    this.status = 'loading'
+    this.productsService.getPaginateProducts(this._limit, this.offset)
     .subscribe(products => {
-      this.products = products;
+      this.products.push(...products)
+      this.offset += this._limit
+      this.status = 'success'
     });
   }
 

@@ -8,7 +8,7 @@ import { createOneProduct } from '../../../core/models/product.mock';
 import { Product } from '../../../core/models/product.model';
 import { Component } from '@angular/core';
 
-fdescribe('ProductComponent', () => {
+describe('ProductComponent', () => {
   let component: ProductComponent
   let fixture: ComponentFixture<ProductComponent>
   let product: Product
@@ -57,7 +57,7 @@ class HostComponent {
   product = createOneProduct()
 }
 
-fdescribe('ProductComponent from HostComponent', () => {
+describe('ProductComponent from HostComponent', () => {
   let component: HostComponent
   let fixture: ComponentFixture<HostComponent>
 
