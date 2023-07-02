@@ -9,7 +9,7 @@ import { MaterialModule } from '../../../material/material.module';
 import { ProductsService } from '../../../core/services/products/products.service';
 import { createManyProducts } from '../../../core/models/product.mock';
 
-fdescribe('ProductsComponent', () => {
+describe('ProductsComponent', () => {
   let component: ProductsComponent
   let fixture: ComponentFixture<ProductsComponent>
   let productService: jasmine.SpyObj<ProductsService>
