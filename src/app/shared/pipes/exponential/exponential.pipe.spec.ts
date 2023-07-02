@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core'
 
 import { ExponentialPipe } from './exponential.pipe'
-import { By } from '@angular/platform-browser';
+import { findByQuery } from '../../../../testing'
 
 @Component({
   template: `
@@ -46,7 +46,7 @@ describe('ExponentialPipe', () => {
     })
 
     it('should show 25', () => {
-      const debug = fixture.debugElement.query(By.css('span'))
+      const debug = findByQuery(fixture, 'span')
 
       expect(debug.nativeElement.textContent).toEqual('25')
     })

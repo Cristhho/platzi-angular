@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
 
 import { MaterialModule } from '../../../material/material.module';
 import { ProductComponent } from './product.component';
 import { createOneProduct } from '../../../core/models/product.mock';
 import { Product } from '../../../core/models/product.model';
 import { Component } from '@angular/core';
+import { findByQuery } from '../../../../testing';
 
 describe('ProductComponent', () => {
   let component: ProductComponent
@@ -36,7 +36,7 @@ describe('ProductComponent', () => {
   })
 
   it('should show the product title', () => {
-    const debug = fixture.debugElement.query(By.css('mat-card-title'))
+    const debug = findByQuery(fixture, 'mat-card-title')
     const element: HTMLElement = debug.nativeElement
     expect(element).not.toBeUndefined()
     expect(element.textContent).toEqual(product.title.toUpperCase())
@@ -44,7 +44,7 @@ describe('ProductComponent', () => {
 
   it('should call add to cart method', () => {
     const spy = spyOn(fixture.componentInstance, 'addCart');
-    const debug = fixture.debugElement.query(By.css('button'))
+    const debug = findByQuery(fixture, 'button')
     debug.triggerEventHandler('click', null)
     expect(spy).toHaveBeenCalled()
   })
@@ -82,7 +82,7 @@ describe('ProductComponent from HostComponent', () => {
   })
 
   it('should display a product', () => {
-    const debug = fixture.debugElement.query(By.css('mat-card-title'))
+    const debug = findByQuery(fixture, 'mat-card-title')
     const element: HTMLElement = debug.nativeElement
     fixture.detectChanges()
 

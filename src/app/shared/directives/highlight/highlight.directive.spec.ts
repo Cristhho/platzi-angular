@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core'
 import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 
 import { HighlightDirective } from './highlight.directive'
+import { findAllByDirective, findAllByQuery, findByQuery } from '../../../../testing'
 
 @Component({
   template: `
@@ -35,15 +35,15 @@ describe('HighlightDirective', () => {
   })
 
   it('should have 3 element with the directive', () => {
-    const directiveElements = fixture.debugElement.queryAll(By.directive(HighlightDirective))
-    const elements = fixture.debugElement.queryAll(By.css('*:not([appHighlight])'))
+    const directiveElements = findAllByDirective(fixture, HighlightDirective)
+    const elements = findAllByQuery(fixture, '*:not([appHighlight])')
 
     expect(directiveElements.length).toEqual(3)
     expect(elements.length).toEqual(2)
   })
 
   it('should match the background color', () => {
-    const directiveElements = fixture.debugElement.queryAll(By.directive(HighlightDirective))
+    const directiveElements = findAllByDirective(fixture, HighlightDirective)
     const dir = directiveElements[0].injector.get(HighlightDirective)
     const dir2 = directiveElements[1].injector.get(HighlightDirective)
 
@@ -52,7 +52,7 @@ describe('HighlightDirective', () => {
   })
 
   it('should bind input and change the color', () => {
-    const debug = fixture.debugElement.query(By.css('input'))
+    const debug = findByQuery(fixture, 'input')
     const element: HTMLInputElement = debug.nativeElement
 
     expect(element.style.backgroundColor).toEqual(component.color)

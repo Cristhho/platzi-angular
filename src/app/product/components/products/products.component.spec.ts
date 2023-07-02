@@ -7,7 +7,7 @@ import { ProductComponent } from '../product/product.component';
 import { MaterialModule } from '../../../material/material.module';
 import { ProductsService } from '../../../core/services/products/products.service';
 import { createManyProducts } from '../../../core/models/product.mock';
-import { mockObservable, asyncData, asyncError } from '../../../../testing';
+import { mockObservable, asyncData, asyncError, findAllByQuery } from '../../../../testing';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent
@@ -60,7 +60,7 @@ describe('ProductsComponent', () => {
       productService.getPaginateProducts.and.returnValue(mockObservable(products))
       fixture.detectChanges()
 
-      const debug = fixture.debugElement.queryAll(By.css('app-product'))
+      const debug = findAllByQuery(fixture, 'app-product')
       const firstProductElement: HTMLElement = debug.at(0)!.query(By.css('mat-card-title')).nativeElement
 
       expect(component.products.length).toEqual(products.length)
