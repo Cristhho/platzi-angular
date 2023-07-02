@@ -7,12 +7,12 @@ import { RegisterComponent } from './register.component';
 import { MaterialModule } from '../../../material/material.module';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
-import { findByQuery, getElementText } from '../../../../testing';
+import { getElementText, setInputValue } from '../../../../testing';
 
 fdescribe('RegisterComponent', () => {
   let component: RegisterComponent
   let fixture: ComponentFixture<RegisterComponent>
-  let userService: jasmine.SpyObj<AuthService>
+  let authService: jasmine.SpyObj<AuthService>
 
   beforeEach(async () => {
     const spy = jasmine.createSpyObj('AuthService', ['createUser'])
@@ -51,11 +51,7 @@ fdescribe('RegisterComponent', () => {
     })
 
     it('should change the value and validate', () => {
-      const input = findByQuery(fixture, 'input#email')
-      const inputElement: HTMLInputElement = input.nativeElement
-      inputElement.value = 'not an email'
-      inputElement.dispatchEvent(new Event('input'))
-      inputElement.dispatchEvent(new Event('blur'))
+      setInputValue(fixture, 'input#email', 'not an email')
       fixture.detectChanges()
 
       expect(component.emailField?.invalid).toBeTruthy()
