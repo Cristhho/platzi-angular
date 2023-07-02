@@ -7,6 +7,7 @@ import { RegisterComponent } from './register.component';
 import { MaterialModule } from '../../../material/material.module';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
+import { findByQuery, getElementText } from '../../../../testing';
 
 fdescribe('RegisterComponent', () => {
   let component: RegisterComponent
@@ -47,6 +48,21 @@ fdescribe('RegisterComponent', () => {
 
       component.emailField?.setValue('')
       expect(component.emailField?.invalid).withContext('empty email').toBeTruthy()
+    })
+
+    it('should change the value and validate', () => {
+      const input = findByQuery(fixture, 'input#email')
+      const inputElement: HTMLInputElement = input.nativeElement
+      inputElement.value = 'not an email'
+      inputElement.dispatchEvent(new Event('input'))
+      inputElement.dispatchEvent(new Event('blur'))
+      fixture.detectChanges()
+
+      expect(component.emailField?.invalid).toBeTruthy()
+      expect(component.emailField?.hasError('email')).toBeTruthy()
+
+      const errorText = getElementText(fixture, '[data-testid="not-valid-email"]')
+      expect(errorText).toContain('El email no es válido')
     })
   })
 
