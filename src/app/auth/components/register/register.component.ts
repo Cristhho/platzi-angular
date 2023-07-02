@@ -13,6 +13,9 @@ import { MyValidators } from '../../../utils/validators';
 export class RegisterComponent {
 
   form!: FormGroup;
+  get emailField() {
+    return this.form.get('email')
+  }
   get passwordField() {
     return this.form.get('password')
   }
@@ -42,12 +45,14 @@ export class RegisterComponent {
       .then(() => {
         this.router.navigate(['/auth/login']);
       });
+    } else {
+      this.form.markAllAsTouched()
     }
   }
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
       confirmPassword: ['', [Validators.required]],
       type: ['company', Validators.required],
