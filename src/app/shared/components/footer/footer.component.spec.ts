@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from '../../../material/material.module';
 import { FooterComponent } from './footer.component';
-import { findByQuery } from '../../../../testing';
+import { getElementText } from '../../../../testing';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -34,9 +34,8 @@ describe('FooterComponent', () => {
   });
 
   it('should have <h3> title', () => {
-    const h3debug = findByQuery(fixture, 'h3')
-    const h3Element: HTMLElement = h3debug.nativeElement
-    expect(h3Element).not.toBeUndefined()
-    expect(h3Element.textContent).toEqual('Productos')
+    const h3Title = getElementText(fixture, 'h3')
+    expect(h3Title).not.toBeNull()
+    expect(h3Title).toEqual('Productos')
   })
 });

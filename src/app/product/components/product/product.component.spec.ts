@@ -6,7 +6,7 @@ import { ProductComponent } from './product.component';
 import { createOneProduct } from '../../../core/models/product.mock';
 import { Product } from '../../../core/models/product.model';
 import { Component } from '@angular/core';
-import { findByQuery } from '../../../../testing';
+import { findByQuery, getElementText } from '../../../../testing';
 
 describe('ProductComponent', () => {
   let component: ProductComponent
@@ -36,10 +36,9 @@ describe('ProductComponent', () => {
   })
 
   it('should show the product title', () => {
-    const debug = findByQuery(fixture, 'mat-card-title')
-    const element: HTMLElement = debug.nativeElement
-    expect(element).not.toBeUndefined()
-    expect(element.textContent).toEqual(product.title.toUpperCase())
+    const elementText = getElementText(fixture, 'mat-card-title')
+    expect(elementText).not.toBeNull()
+    expect(elementText).toEqual(product.title.toUpperCase())
   })
 
   it('should call add to cart method', () => {
@@ -82,11 +81,10 @@ describe('ProductComponent from HostComponent', () => {
   })
 
   it('should display a product', () => {
-    const debug = findByQuery(fixture, 'mat-card-title')
-    const element: HTMLElement = debug.nativeElement
+    const elementText = getElementText(fixture, 'mat-card-title')
     fixture.detectChanges()
 
-    expect(element).not.toBeUndefined()
-    expect(element.textContent).toEqual(component.product.title.toUpperCase())
+    expect(elementText).not.toBeNull()
+    expect(elementText).toEqual(component.product.title.toUpperCase())
   })
 })

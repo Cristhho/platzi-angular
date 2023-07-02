@@ -7,7 +7,7 @@ import { ProductComponent } from '../product/product.component';
 import { MaterialModule } from '../../../material/material.module';
 import { ProductsService } from '../../../core/services/products/products.service';
 import { createManyProducts } from '../../../core/models/product.mock';
-import { mockObservable, asyncData, asyncError, findAllByQuery } from '../../../../testing';
+import { mockObservable, asyncData, asyncError, findAllByQuery, getElementTextByDebug } from '../../../../testing';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent
@@ -61,11 +61,13 @@ describe('ProductsComponent', () => {
       fixture.detectChanges()
 
       const debug = findAllByQuery(fixture, 'app-product')
-      const firstProductElement: HTMLElement = debug.at(0)!.query(By.css('mat-card-title')).nativeElement
+      const firstProductElement = getElementTextByDebug(
+        debug.at(0)!.query(By.css('mat-card-title'))
+      )
 
       expect(component.products.length).toEqual(products.length)
       expect(debug.length).toEqual(products.length)
-      expect(firstProductElement.textContent).toEqual(products.at(0)!.title.toUpperCase())
+      expect(firstProductElement).toEqual(products.at(0)!.title.toUpperCase())
     })
 
     it('should change status from loading to success', fakeAsync(() => {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core'
 
 import { ExponentialPipe } from './exponential.pipe'
-import { findByQuery } from '../../../../testing'
+import { getElementText } from '../../../../testing'
 
 @Component({
   template: `
@@ -30,7 +30,6 @@ describe('ExponentialPipe', () => {
   })
 
   describe('ExponentialPipe from HostComponent', () => {
-    let component: HostComponent
     let fixture: ComponentFixture<HostComponent>
 
     beforeEach(async () => {
@@ -41,14 +40,11 @@ describe('ExponentialPipe', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(HostComponent);
-      component = fixture.componentInstance;
       fixture.detectChanges()
     })
 
     it('should show 25', () => {
-      const debug = findByQuery(fixture, 'span')
-
-      expect(debug.nativeElement.textContent).toEqual('25')
+      expect(getElementText(fixture, 'span')).toEqual('25')
     })
   })
 })
