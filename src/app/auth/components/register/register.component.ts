@@ -43,7 +43,7 @@ export class RegisterComponent {
       const value = this.form.value;
       this.authService.createUser(value.email, value.password)
       .then(() => {
-        this.router.navigate(['/auth/login']);
+        //this.router.navigate(['/auth/login']);
       });
     } else {
       this.form.markAllAsTouched()

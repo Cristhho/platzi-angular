@@ -1,13 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { EmailAuthCredential } from 'firebase/auth';
 
 import { RegisterComponent } from './register.component';
 import { MaterialModule } from '../../../material/material.module';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
-import { getElementText, setInputValue } from '../../../../testing';
+import { getElementText, mockPromise, setInputValue } from '../../../../testing';
 
 fdescribe('RegisterComponent', () => {
   let component: RegisterComponent
@@ -21,6 +23,7 @@ fdescribe('RegisterComponent', () => {
         ReactiveFormsModule,
         MaterialModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
         AngularFireModule.initializeApp(environment.firebase),
       ],
       declarations: [ RegisterComponent ],
@@ -34,6 +37,7 @@ fdescribe('RegisterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent)
     component = fixture.componentInstance
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>
     fixture.detectChanges()
   });
 
@@ -87,5 +91,30 @@ fdescribe('RegisterComponent', () => {
 
       expect(component.form.invalid).toBeTruthy()
     })
+
+    it('should send the form successfully', fakeAsync(() => {
+      component.form.patchValue({
+        email: 'email@mail.com',
+        password: '1234ad',
+        confirmPassword: '1234ad',
+        type: 'customer'
+      })
+      const user: any = {
+        displayName: 'Name',
+        email: 'email@mail.com'
+      }
+      authService.createUser.and.returnValue(mockPromise({
+        credential: new EmailAuthCredential(),
+        user
+      }))
+
+      component.register(new Event('submit'))
+      tick()
+      fixture.detectChanges()
+
+      expect(component.form.valid).toBeTruthy()
+      expect(authService.createUser).toHaveBeenCalled()
+
+    }))
   })
 })
