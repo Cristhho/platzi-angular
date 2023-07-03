@@ -9,3 +9,11 @@ export const setInputValue = <T>(fixture: ComponentFixture<T>, selector: string,
   inputElement.dispatchEvent(new Event('input'))
   inputElement.dispatchEvent(new Event('blur'))
 }
+
+export const setCheckOrRadioSelection = <T>(fixture: ComponentFixture<T>, selector: string, checked: boolean) => {
+  const input = findByQuery(fixture, selector)
+  const inputElement: HTMLInputElement = input.nativeElement
+  inputElement.checked = checked
+  inputElement.dispatchEvent(new Event('change'))
+  inputElement.dispatchEvent(new Event('blur'))
+}

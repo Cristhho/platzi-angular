@@ -56,7 +56,7 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
       confirmPassword: ['', [Validators.required]],
       type: ['company', Validators.required],
-      companyName: ['', Validators.required]
+      companyName: ['']
     }, {
       validators: MyValidators.matchPasswords
     });

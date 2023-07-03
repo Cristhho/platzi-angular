@@ -9,7 +9,7 @@ import { RegisterComponent } from './register.component';
 import { MaterialModule } from '../../../material/material.module';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
-import { getElementText, mockPromise, setInputValue } from '../../../../testing';
+import { findByQuery, getElementText, mockPromise, setCheckOrRadioSelection, setInputValue } from '../../../../testing';
 
 fdescribe('RegisterComponent', () => {
   let component: RegisterComponent
@@ -109,6 +109,30 @@ fdescribe('RegisterComponent', () => {
       }))
 
       component.register(new Event('submit'))
+      tick()
+      fixture.detectChanges()
+
+      expect(component.form.valid).toBeTruthy()
+      expect(authService.createUser).toHaveBeenCalled()
+
+    }))
+
+    it('should fill all inputs and click the submit button', fakeAsync(() => {
+      setInputValue(fixture, 'input#email', 'email@mail.com')
+      setInputValue(fixture, 'input#password', '123456')
+      setInputValue(fixture, 'input#confirmPassword', '123456')
+      setCheckOrRadioSelection(fixture, 'mat-radio-button#typeCustomer', true)
+      const button = findByQuery(fixture, 'button')
+      const user: any = {
+        displayName: 'Name',
+        email: 'email@mail.com'
+      }
+      authService.createUser.and.returnValue(mockPromise({
+        credential: new EmailAuthCredential(),
+        user
+      }))
+
+      button.nativeElement.click(new Event('click'))
       tick()
       fixture.detectChanges()
 
