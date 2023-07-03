@@ -140,5 +140,22 @@ fdescribe('RegisterComponent', () => {
       expect(authService.createUser).toHaveBeenCalled()
 
     }))
+
+    it('should has an error from the service', fakeAsync(() => {
+      setInputValue(fixture, 'input#email', 'email@mail.com')
+      setInputValue(fixture, 'input#password', '123456')
+      setInputValue(fixture, 'input#confirmPassword', '123456')
+      setCheckOrRadioSelection(fixture, 'mat-radio-button#typeCustomer', true)
+      const button = findByQuery(fixture, 'button')
+      authService.createUser.and.returnValue(Promise.reject('Error'))
+
+      button.nativeElement.click(new Event('click'))
+      tick()
+      fixture.detectChanges()
+
+      expect(component.form.valid).toBeTruthy()
+      expect(authService.createUser).toHaveBeenCalled()
+      expect(component.error).toEqual('Error')
+    }))
   })
 })

@@ -29,6 +29,8 @@ export class RegisterComponent {
     return this.form.get('companyName')
   }
 
+  error = ''
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -44,6 +46,10 @@ export class RegisterComponent {
       this.authService.createUser(value.email, value.password)
       .then(() => {
         //this.router.navigate(['/auth/login']);
+      })
+      .catch((error) => {
+        this.form.markAllAsTouched()
+        this.error = error
       });
     } else {
       this.form.markAllAsTouched()
