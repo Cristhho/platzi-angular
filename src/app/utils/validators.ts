@@ -30,6 +30,10 @@ export class MyValidators {
     const pass = control.get('password')?.value
     const confirm = control.get('confirmPassword')?.value
 
+    if (pass === undefined || confirm === undefined) {
+      throw new Error('Fields not found')
+    }
+
     return (pass === confirm) ? null : {doesnt_match: true}
   }
 
