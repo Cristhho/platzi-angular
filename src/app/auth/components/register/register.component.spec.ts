@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { AngularFireModule } from '@angular/fire/compat';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import { EmailAuthCredential } from 'firebase/auth';
+import { Router } from '@angular/router';
 
 import { RegisterComponent } from './register.component';
 import { MaterialModule } from '../../../material/material.module';
@@ -11,24 +11,26 @@ import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
 import { findByQuery, getElementText, mockPromise, setCheckOrRadioSelection, setInputValue } from '../../../../testing';
 
-describe('RegisterComponent', () => {
+fdescribe('RegisterComponent', () => {
   let component: RegisterComponent
   let fixture: ComponentFixture<RegisterComponent>
   let authService: jasmine.SpyObj<AuthService>
+  let router: jasmine.SpyObj<Router>
 
   beforeEach(async () => {
     const spy = jasmine.createSpyObj('AuthService', ['createUser'])
+    const routerSpy = jasmine.createSpyObj('Router', ['navigate'])
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         MaterialModule,
         BrowserAnimationsModule,
-        RouterTestingModule,
         AngularFireModule.initializeApp(environment.firebase),
       ],
       declarations: [ RegisterComponent ],
       providers: [
-        { provide: AuthService, useValue: spy }
+        { provide: AuthService, useValue: spy },
+        { provide: Router, useValue: routerSpy },
       ]
     })
     .compileComponents()
@@ -38,6 +40,7 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent)
     component = fixture.componentInstance
     authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>
     fixture.detectChanges()
   });
 
@@ -114,6 +117,7 @@ describe('RegisterComponent', () => {
 
       expect(component.form.valid).toBeTruthy()
       expect(authService.createUser).toHaveBeenCalled()
+      expect(router.navigate).toHaveBeenCalledWith(['/auth/login'])
 
     }))
 
