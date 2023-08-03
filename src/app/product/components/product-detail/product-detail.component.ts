@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { ProductsService } from './../../../core/services/products/products.service';
 import { Product } from './../../../core/models/product.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,15 +16,20 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private location: Location,
     private productsService: ProductsService
   ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
-      const id:any = params.get('id');
-      this.fetchProduct(id);
-      this.productsService.getProduct(id)
-        .subscribe((prod) => this.product = prod)
+      const id: string | null = params.get('id');
+      if (id) {
+        this.fetchProduct(id);
+        this.productsService.getProduct(id)
+          .subscribe((prod) => this.product = prod)
+      } else {
+        this.location.back();
+      }
     });
   }
 

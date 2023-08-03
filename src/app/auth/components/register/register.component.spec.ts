@@ -11,7 +11,7 @@ import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../core/services/auth.service';
 import { findByQuery, getElementText, mockPromise, setCheckOrRadioSelection, setInputValue } from '../../../../testing';
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
   let component: RegisterComponent
   let fixture: ComponentFixture<RegisterComponent>
   let authService: jasmine.SpyObj<AuthService>
