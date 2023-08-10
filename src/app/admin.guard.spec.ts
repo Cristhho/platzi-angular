@@ -1,11 +1,11 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { AdminGuard } from './admin.guard';
 import { AuthService } from './core/services/auth.service';
 import { fakeActivatedRouteSnapshot, fakeRouterStateSnapshot, mockObservable } from 'src/testing';
 
-fdescribe('AdminGuard', () => {
+describe('AdminGuard', () => {
   let guard: AdminGuard
   let authService: jasmine.SpyObj<AuthService>
   let router: jasmine.SpyObj<Router>
@@ -31,7 +31,11 @@ fdescribe('AdminGuard', () => {
   })
 
   it('should return true', (doneFn) => {
-    const activatedRoute = fakeActivatedRouteSnapshot({})
+    const activatedRoute = fakeActivatedRouteSnapshot({
+      params: {
+        idProduct: '1'
+      }
+    })
     const routerSnap = fakeRouterStateSnapshot({})
 
     const user: any = {
@@ -46,7 +50,11 @@ fdescribe('AdminGuard', () => {
   })
 
   it('should return false', (doneFn) => {
-    const activatedRoute = fakeActivatedRouteSnapshot({})
+    const activatedRoute = fakeActivatedRouteSnapshot({
+      params: {
+        idProduct: '1'
+      }
+    })
     const routerSnap = fakeRouterStateSnapshot({})
 
     authService.hasUser.and.returnValue(mockObservable(null))
