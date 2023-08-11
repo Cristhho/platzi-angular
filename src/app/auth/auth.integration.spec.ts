@@ -12,7 +12,7 @@ import { environment } from '../../environments/environment'
 import { AuthModule } from './auth.module'
 import { AuthService } from '../core/services/auth.service'
 
-fdescribe('Auth integration test', () => {
+describe('Auth integration test', () => {
   let fixture: ComponentFixture<AppComponent>
   let component: AppComponent
   let router: Router
@@ -50,7 +50,6 @@ fdescribe('Auth integration test', () => {
 
     tick()
     fixture.detectChanges()
-
   }))
 
   it('should create the app', () => {
@@ -59,7 +58,7 @@ fdescribe('Auth integration test', () => {
   })
 
   it('should navigate to the login page', fakeAsync(() => {
-    router.navigate(['/login'])
+    fixture.ngZone?.run(() => router.navigate(['/login']))
     tick()
     fixture.detectChanges()
 
