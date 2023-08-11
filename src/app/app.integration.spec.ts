@@ -38,7 +38,7 @@ const routes = [
   },
 ]
 
-fdescribe('App integration test', () => {
+describe('App integration test', () => {
   let fixture: ComponentFixture<LayoutComponent>
   let component: LayoutComponent
   let router: Router
